@@ -1,26 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-</head>
+    </head>
+    <body>
+        <div class="container">
+            <h1>HTML Generator Demo </h1>
+            <p>This demo uses bootstrap and bootStrapModal as a sample, but these are not required to use the libary.</p>
+            <p>Please view HTML / Documentation for sample infos </p>
+            <p>Activate Console to log for output...</p>
+            <button type="button" onclick="showAlert('Hi Ho!');" class="btn btn-default">Create AlertDialog</button>
+        </div>
+        <!-- 
 
-<body>
-    <h1>HTML5 Generator Sample (Simple Sample)</h1>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/h5generator.js"></script>
-    <script>
+        All Generator(Definitions) are collected inside a div with a specified class
 
-    </script>
+    -->
+        <div style="display:none" class="htmlGenerators">
+            <!-- Main DIV for all Generators-->
+            <!--
+            
+            Every generator is specified by a data-generator="<name>" attribute
+            
+            Generator can / should be nested !
 
-</body>
+            The following generators are defined in this sample
+
+            dialog
+            dialog.text
+            dialog.inputtext
+            dialog.select
+            dialog.option
+            dialog.selectedoption
+            dialog.cancelok
+            dialog.cancel
+            dialog.ok
+
+            every Generator has Insertion elements {<name>:<default>} which
+            will be replaced during generation with values provided.
+
+            <p data-generator="text">{text:noText}</p>
+            dialog.text()     ->    <p>noText</p>
+            dialog.text({text: 'Hi'})     ->    <p>Hi</p>
+
+            These Insertion Elements can be everywhere inside the HTML (as long as in valid html)
+
+            In case you want to define an insert Element at a place where NO TEXT is allowed (like adding a TR to a TABLE)
+            you can use dummy Element of this type
+
+            Sample (will not work, cause text is not allowed at this place):
+            
+            <table>
+                {rows}
+            </table>
+
+            Better (will work, cause tr is valid here. These Version acts exact like the one intended above)
+            
+            <table>
+                 <tr data-generatorplace="select"></tr>
+            </table>
+
+        -->
+            <div class="modal fade " style="display: block" tabindex="-1" role="dialog" data-generator="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title dlg-element" data-element="title">
+                                <span class="glyphicon glyphicon-{icon:info-sign}" aria-hidden="true"></span>
+                                &nbsp;{title}
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <p data-generator="text">{text}</p>
+                                <div data-generator="inputtext" class="form-group">
+                                    <label for="left">{label:Eingabefeld}</label>
+                                    <input type="{type:text}" placeholder="{placeholder:text}" class="valName_{name:unnamed} form-control"></input>
+                                </div>
+                                <div data-generator="select" class="form-group">
+                                    <label for="left">{label:Eingabefeld}</label>
+                                    <select class="valName_{name:unnamed} form-control">
+                                        <option data-generator="option" value="{value}">{title}</option>
+                                        <option data-generator="selectedoption" selected value="{value}">{title}</option>
+                                        <option data-generatorplace="select"></option>
+                                    </select>
+                                </div>
+                                <div data-generatorplace="content"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div data-generator="cancelok">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{cancel:Abbruch}</button>
+                                <button type="button" class="btn btn-primary ok">{ok:Ok}</button>
+                            </div>
+                            <button data-generator="cancel" type="button" class="btn pull-left btn-default" data-dismiss="modal">{cancel:Abbruch}</button>
+                            <button data-generator="ok" type="button" class="btn btn-primary ok">{ok:Ok}</button>
+                            <div data-generatorplace="buttons"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/bluebird/3.4.7/bluebird.min.js"></script>
+        <script src="https://cdn.rawgit.com/keatec/bootStrapModal/master/js/bsBetterModal.js" type="text/javascript"></script>
+        <script src="js/h5generator.js"></script>
+        <script>
+                var showAlert = function(message) {
+                    return betterModal.run($(generators.dialog({
+                        title: 'Alert',
+                        content: [generators.dialog.text({
+                            text: ''+message
+                        })], 
+                        buttons: [generators.dialog.cancelok({
+                            ok: 'Seen!'
+                        })]
+                    }))).then(function(obj) {
+                        return true;
+                    }).catch(function() {
+                        return false
+                    });
+                };
+            $(document).ready(function () {
+                
+            });
+        </script>
+    </body>
