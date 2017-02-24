@@ -1,0 +1,21 @@
+{
+  "name": "h5generator",
+  "homepage": "https://github.com/keatec/h5generator",
+  "description": "HTML5 Generator Libary",
+  "main": "js/h5generator.js",
+  "keywords": [
+    "generator",
+    "html5"
+  ],
+  "authors": [
+    "Keatec GmbH"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

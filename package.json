@@ -1,0 +1,24 @@
+{
+  "name": "h5generator",
+  "version": "0.1.0",
+  "description": "html5 generator libary",
+  "main": "grunt.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keatec/h5generator.git"
+  },
+  "author": "Keatec GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/keatec/h5generator/issues"
+  },
+  "homepage": "https://github.com/keatec/h5generator#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0"
+  }
+}
