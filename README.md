@@ -1,14 +1,46 @@
 # h5generator
 Generator Libary for HTML based (Single Page) Websites
 
-# Description
+If your code contians HTML fragments like
+```javascript
 
-h5generator can be used to define HTML code which can  later be generated using variable text
+output = '<div class="result">'+data+'</div>';
+
+```
+
+... this libary is for you...
+
+Why?  Cause this code has a lot of Problems
+* `data` needs to be compatible with `string`
+* data should not be `null` or `undefined`
+* data should be encoded (if needed)
+
+So a better line of code would be
+
+```javascript
+output = '<div class="result">'+(data != undefined (''+data): 'is undefined')+'</div>';
+```
+
+So now it is time to start using a "generator".
+
+```javascript
+output = generators.result({data: data});
+```
+and all the design goes out of javascript into html
+
+```html
+<div class="result" data-generator="result">{data}</div>
+```
+Seperated and clear. Design can be changed without changing code. Code can be changed without design.
+
+## What this libary does...
+
+h5generator processes template written inside the HTML into javascript code. These generator functions can used with parameters to generate html.  
 
 Sample:
 ```html
 <div data-generator="softi">
-    <h1>Tolle Software {title}</h1>
+    <h1>Name of Software: <b>{title}</b></h1>
     <p>{desc}</p>
 </div>
 ```
@@ -39,11 +71,10 @@ The HTML templates are placed inside your main HTML Site in a hidden DIV Tag
 </div>
 ```
 
-> by unhiding this tag your template can be directly edited for Design questions.
-> It is also possible to add demotags to the generator which can be used to test different
-> visual effects and scenarios. During compilation this elements will removed
+> By changing `"display:none"` to `display:block` the templates will become visible in your HTML page. You can directly change and check the visual appearance without executing code to check designs   
+> To support this kind of coding you can also add html to the generatore using a class `htmlGeneratorsDemo`. During compilation these elements will removed
 
-generators can (and should) be nested.
+## Generators can (and should) be nested.
 
 ```html
 <div data-generator="softi"> <--*1
@@ -57,7 +88,8 @@ generators can (and should) be nested.
     </div>
 </div>
 ```
-Now you have two generators "softi" (*1) and "softi.address" (*2). To Insert to Result of "softi.address" softi has a place to insert the Result
+Now you have two generators "softi" (*1) and "softi.address" (*2).   
+To insert the result of "softi.address" into softi, the softi generator has a place to insert the result
 named {address} (*2).
 
 So a complete html can be generated using:
@@ -95,20 +127,21 @@ generators.softi({
 })
 ```
 
-If you want to visual check your generator you can simply add sample elements by using
-the class 'htmlGeneratorsDemo'. Elements with this class are ignored during compilation. (you have to remove the display:none from the generators tag to make the html elements visible of course!)
+If you want to visual check your generator-html you can simply add demo elements to your code by using
+the class 'htmlGeneratorsDemo'. Elements with this class are removed during compilation. 
 
 ```html
 <div style="display:none" class="htmlGenerators">
-    <div data-generator="softi"> <--*1
+    <div data-generator="softi">
         <h1>Tolle Software {title}</h1>
         <p>{desc}</p>
-        {address}<--*2
-        <div data-generator="address"> <--*3
+        {address}
+        <div data-generator="address">
             <p>{street}</p>
             <p>{town}</p>
             <p>{country}</p>
         </div>
+        <!-- Visual Samples to check different behaviour --> 
         <div class="htmlGeneratorsDemo">
             <p>Super UltraVeryLong Street Name</p>
             <p>And a Big town</p>
