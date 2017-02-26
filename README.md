@@ -183,11 +183,15 @@ The following code blocks are identical (after compilation):
 
 ## reference variable inside HTML
 
-anywhere inside the HTML of a generator you can specify a variable element
+anywhere inside the HTML of a generator you can specify a variable element.
+
+
 
 ```html
 <div class="{visualclass:defaultclass}">{value:no value}</div>
 ```
+
+You may add a '!' to the name to indicate "this value is required". Without this the generator will not be executed. (raises an error).
 
 The Variable is named `value`. If this variable is not present the text `'no value'` is used at this place.
 
