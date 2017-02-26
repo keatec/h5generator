@@ -156,3 +156,92 @@ the class 'htmlGeneratorsDemo'. Elements with this class are removed during comp
 </div>
 ```
     
+# Documentation
+
+## css Classes
+
+`htmlGenerators`  
+Holds all generators inside your HTML page.
+
+`htmlGeneratorsDemo`  
+Elements with this class will be remove during compilation. If your generators are visible you can use this Elements to check different scenarios.
+
+## generator refrences
+anywhere inside your HTML you can specify a variable element
+
+```html
+<div class="{visualclass:defaultclass}">{value:no value}</div>
+```
+
+The Variable is named `value`. If this variable is not present the text `'no value'` is used at this place.
+
+At some places an insert point like `{rows}` is not possible.
+```html
+    <table><!-- This does NOT work !!! -->
+        {rows}
+    </table>
+```
+
+In this case you can use a Tag which is valid (`<tr>`) and mark them with a spezial attribute `data-generatorplace`.  
+So this will work (as aspected):
+
+```html
+    <table><!-- This will work  !!! -->
+        <tr data-generatorplace="rows"/>
+    </table>
+```
+
+
+## Sample
+
+
+Here is a omplete example (for a generator to create BootStrap Dialogs)     
+
+```javascript
+<div class="modal fade " style="display: block" tabindex="-1" role="dialog" data-generator="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title dlg-element" data-element="title">
+                    <span class="glyphicon glyphicon-{icon:info-sign}" aria-hidden="true"></span>
+                    &nbsp;{title}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    <p data-generator="text">{text}</p>
+                    <div data-generator="inputtext" class="form-group">
+                        <label for="left">{label:Eingabefeld}</label>
+                        <input type="{type:text}" placeholder="{placeholder:text}" class="valName_{name:unnamed} form-control"></input>
+                    </div>
+                    <div data-generator="select" class="form-group">
+                        <label for="left">{label:Eingabefeld}</label>
+                        <select class="valName_{name:unnamed} form-control">
+                            <option data-generator="option" value="{value}">{title}</option>
+                            <option data-generator="selectedoption" selected value="{value}">{title}</option>
+                            <option data-generatorplace="select"></option>
+                        </select>
+                    </div>
+                    <div data-generatorplace="content"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div data-generator="cancelok">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{cancel:Abbruch}</button>
+                    <button type="button" class="btn btn-primary ok">{ok:Ok}</button>
+                </div>
+                <button data-generator="cancel" type="button" class="btn pull-left btn-default" data-dismiss="modal">{cancel:Abbruch}</button>
+                <button data-generator="ok" type="button" class="btn btn-primary ok">{ok:Ok}</button>
+                <div data-generatorplace="buttons"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+```
+
+
