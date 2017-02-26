@@ -54,7 +54,7 @@ generators.softi({
 will generate as return:
 ```html
 <div>
-    <h1>Tolle Software BestApp</h1>
+    <h1>Name of Software: <b>BestApp</b></h1>
     <p>Best Software ever</p>
 </div>
 ```
@@ -106,7 +106,7 @@ generators.softi({
 })
 ```
 
-If you have more then one address, simply build an array...
+If you have more then one address, simply use an array...
 
 ```javascript
 generators.softi({
@@ -128,7 +128,7 @@ generators.softi({
 ```
 
 If you want to visual check your generator-html you can simply add demo elements to your code by using
-the class 'htmlGeneratorsDemo'. Elements with this class are removed during compilation. 
+the class 'htmlGeneratorsDemo'. Elements with this class are __removed during compilation__. 
 
 ```html
 <div style="display:none" class="htmlGenerators">
@@ -166,8 +166,24 @@ Holds all generators inside your HTML page.
 `htmlGeneratorsDemo`  
 Elements with this class will be remove during compilation. If your generators are visible you can use this Elements to check different scenarios.
 
-## generator refrences
-anywhere inside your HTML you can specify a variable element
+
+## attributes
+
+`data-generator`  
+Starting with this HTML tag a generator will be build using the name provide.
+
+`data-generatorplace`
+This element will be handled like a normal insertion point.
+The following code blocks are identical (after compilation):
+```html
+<div class="result">{data}</div>
+
+<div class="result"><div data-generatorplace="data"/></div>
+```
+
+## reference variable inside HTML
+
+anywhere inside the HTML of a generator you can specify a variable element
 
 ```html
 <div class="{visualclass:defaultclass}">{value:no value}</div>
@@ -177,18 +193,18 @@ The Variable is named `value`. If this variable is not present the text `'no val
 
 At some places an insert point like `{rows}` is not possible.
 ```html
-    <table><!-- This does NOT work !!! -->
-        {rows}
-    </table>
+<table><!-- This does NOT work !!! -->
+    {rows}
+</table>
 ```
 
 In this case you can use a Tag which is valid (`<tr>`) and mark them with a spezial attribute `data-generatorplace`.  
 So this will work (as aspected):
 
 ```html
-    <table><!-- This will work  !!! -->
-        <tr data-generatorplace="rows"/>
-    </table>
+<table><!-- This will work  !!! -->
+    <tr data-generatorplace="rows"/>
+</table>
 ```
 
 
