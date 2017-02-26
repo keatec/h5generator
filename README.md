@@ -211,7 +211,7 @@ So this will work (as aspected):
 ## Sample
 
 
-Here is a omplete example (for a generator to create BootStrap Dialogs)     
+Here is a omplete example (for a generator to create BootStrap Dialogs). Can also be found in sample.html
 
 ```javascript
 <div class="modal fade " style="display: block" tabindex="-1" role="dialog" data-generator="dialog">
