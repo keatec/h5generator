@@ -33,23 +33,24 @@ SOFTWARE.
         var reg = /\{[^\}]+\}/gi;
         var lines = html.split(reg); expr = html.match(reg) || [];
         var pos = 0; var vname; var vars = {};
-        for (var i = 0; i < lines.length; i++) {
+        var i;
+        for (i = 0; i < lines.length; i++) {
             code.push('' + JSON.stringify(lines[i]));
             if (pos < expr.length) {
                 var match = (/\{([\!]{0,1})([a-z]+)(?:\:([^\}]+)){0,1}\}/gi).exec(expr[pos]);
                 vname = match[2];
                 vars[vname] = match[1] == '!';
-                if (match[3] != undefined) {
+                if (match[3] !== undefined) {
                     elem.def[vname] = match[3];
                 }
                 code.push('(\'\'+' + vname + ' )');
                 pos++;
-            };
-        };
+            }
+        }
         code = code.join('+\n');
         var fnc;
         var check = []; var checknames = []; var varnames = []; varcheck = {};
-        for (var i in vars) {
+        for (i in vars) {
             if (vars[i]) {
                 varnames.push('!' + i);
                 varcheck[i] = 1;
@@ -59,7 +60,7 @@ SOFTWARE.
                 varnames.push(i);
                 varcheck[i] = 1;
             }
-        };
+        }
         if (check.length > 0) check = ['if (' + check.join(' || ') + ') {throw new Error(\'Generator ' + rootname + '.' + name + ' requires: (' + checknames.join(',') + ') \');};'];
         var fncc = [];
         fncc.push('fnc = function ' + name + ' (_aOpt,_aDef) { ');
@@ -67,35 +68,35 @@ SOFTWARE.
         
         fncc.push('console.log(_aDef,_aOpt,_opt.title == undefined);');
         fncc.push('var _ars = ' + JSON.stringify(varcheck) + ';');
-        fncc.push('for (var _i in _opt) {if (_ars[_i] != 1) {throw new Error(\'Generator ' + rootname + '.' + name + ' does not define a value "\'+_i+\'"\')};};')
+        fncc.push('for (var _i in _opt) {if (_ars[_i] != 1) {throw new Error(\'Generator ' + rootname + '.' + name + ' does not define a value "\'+_i+\'"\')};};');
         
         fncc.push(check.join(''));
-        for (var i in vars) {
+        for (i in vars) {
             fncc.push('var ' + i + ';');
         }
-        for (var i in vars) {
+        for (i in vars) {
             fncc.push('' + i + '= (_opt.' + i + ' != undefined ? _opt.' + i + ': (_def.' + i + ' != undefined ? _def.' + i + ' : \'\'));');
             fncc.push('if (' + i + ' instanceof Array) ' + i + '=' + i + '.join(\'\');');
         }
-        fncc.push('; return ' + code + '}')
+        fncc.push('; return ' + code + '}');
         //console.log(fncc.join('\r\n'));
         eval('' + fncc.join(''));
         console.log('Generator created: generators' + rootname + '.' + name + '({' + varnames.join(',') + '})');
         rootfnc[name] = fnc;
         elem.fnc = fnc;
-        for (var i in elem.sub) {
+        for (i in elem.sub) {
             buildFunction(elem.sub[i], i, fnc, rootname + '.' + name);
-        };
+        }
     };
 
     var scanGenerator = function (obj, root) {
-        if (obj.data('generator') != undefined) {
+        if (obj.data('generator') !== undefined) {
             // There is an Generator
             var name = obj.data('generator');
             if (name.length > 0) {
                 obj.removeData('generator');
                 obj.removeAttr('data-generator');
-                if (root[name] != undefined) throw new Error('Only one generator definition is allowed per child');
+                if (root[name] !== undefined) throw new Error('Only one generator definition is allowed per child');
                 root.sub[name] = { html: '', sub: {}, def: {} };
                 var val = root.sub[name];
                 var html = $('<div/>').append(obj.clone());
@@ -106,7 +107,7 @@ SOFTWARE.
                 html.find('*[data-generator]').remove();
                 html.find('.htmlGeneratorsDemo').remove();
                 html = html.html();
-                html = html.replace(/\<\!\-\-repl\:([!a-z]+)\-\-\>/gi, function (e, o) {
+                html = html.replace(/<\!\-\-repl\:([!a-z]+)\-\-\>/gi, function (e, o) {
                     return '{' + o + '}';
                 });
                 val.html = html;
@@ -125,14 +126,14 @@ SOFTWARE.
     var main = {
         init: function () {
             var data = $('.htmlGenerators');
-            if (data.length == 0) return;
+            if (data.length === 0) return;
             var start = { sub: {} };
             data.map(function (e, obj) {
                 scanGenerator($(obj), start);
             });
             for (var i in start.sub) {
                 buildFunction(start.sub[i], i, main, '');
-            };
+            }
         }
     };
 
