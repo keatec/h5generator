@@ -94,8 +94,8 @@ SOFTWARE.
                 // ok, this is a Clicker Object;
                 var app = obj.data('app');
                 if (window[app] != undefined) {
-                    if (window[app]['created_'+name] != undefined) {
-                        var res = window[app]['created_'+name](obj,aObj);
+                    if (window[app]['update_'+name] != undefined) {
+                        var res = window[app]['update_'+name](obj,aObj);
                         if (res != undefined) {
                             obj.data('contextres',JSON.stringify(res))
                             obj.attr('data-contextres',JSON.stringify(res));
