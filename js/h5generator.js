@@ -66,7 +66,7 @@ SOFTWARE.
         fncc.push('fnc = function ' + name + ' (_aOpt,_aDef) { ');
         fncc.push('var _def = (_aDef == undefined ? ' + JSON.stringify(elem.def) + ' : _aDef); var _opt = (_aOpt == undefined ? {} : _aOpt);');
         
-        fncc.push('console.log(_aDef,_aOpt,_opt.title == undefined);');
+        //fncc.push('console.log(_aDef,_aOpt,_opt.title == undefined);');
         fncc.push('var _ars = ' + JSON.stringify(varcheck) + ';');
         fncc.push('for (var _i in _opt) {if (_ars[_i] != 1) {throw new Error(\'Generator ' + rootname + '.' + name + ' does not define a value "\'+_i+\'"\')};};');
         
@@ -84,6 +84,14 @@ SOFTWARE.
         console.log('Generator created: generators' + rootname + '.' + name + '({' + varnames.join(',') + '})');
         rootfnc[name] = fnc;
         elem.fnc = fnc;
+        fnc.asActive = function (obj,def) {
+            var obj = $(this(obj,def));
+            /*obj.data('generator',rootname+'.'+name);data-contextRes
+            obj.attr('data-generator',rootname+'.'+name);*/
+            obj.data('contextRes',JSON.stringify(obj))
+            obj.attr('data-contextRes',JSON.stringify(obj))
+            return obj;
+        };
         for (i in elem.sub) {
             buildFunction(elem.sub[i], i, fnc, rootname + '.' + name);
         }
