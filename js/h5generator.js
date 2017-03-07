@@ -88,8 +88,8 @@ SOFTWARE.
             var obj = $(this(aObj,aDef));
             /*obj.data('generator',rootname+'.'+name);data-contextRes
             obj.attr('data-generator',rootname+'.'+name);*/
-            obj.data('contextRes',JSON.stringify(aObj))
-            obj.attr('data-contextRes',JSON.stringify(aObj))
+            obj.data('contextres',JSON.stringify(aObj))
+            obj.attr('data-contextres',JSON.stringify(aObj))
             return obj;
         };
         for (i in elem.sub) {
