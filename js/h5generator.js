@@ -84,12 +84,12 @@ SOFTWARE.
         console.log('Generator created: generators' + rootname + '.' + name + '({' + varnames.join(',') + '})');
         rootfnc[name] = fnc;
         elem.fnc = fnc;
-        fnc.asActive = function (obj,def) {
-            var obj = $(this(obj,def));
+        fnc.asActive = function (aObj,aDef) {
+            var obj = $(this(aObj,aDef));
             /*obj.data('generator',rootname+'.'+name);data-contextRes
             obj.attr('data-generator',rootname+'.'+name);*/
-            obj.data('contextRes',JSON.stringify(obj))
-            obj.attr('data-contextRes',JSON.stringify(obj))
+            obj.data('contextRes',JSON.stringify(aObj))
+            obj.attr('data-contextRes',JSON.stringify(aObj))
             return obj;
         };
         for (i in elem.sub) {
