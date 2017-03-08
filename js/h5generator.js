@@ -88,21 +88,21 @@ SOFTWARE.
             var obj = $(this(aObj,aDef));
             /*obj.data('generator',rootname+'.'+name);data-contextRes
             obj.attr('data-generator',rootname+'.'+name);*/
-            obj.data('contextres',JSON.stringify(aObj))
+            obj.data('contextres',JSON.stringify(aObj));
             obj.attr('data-contextres',JSON.stringify(aObj));
             if (obj.hasClass('context')) {
                 // ok, this is a Clicker Object;
                 var app = obj.data('app');
-                if (window[app] != undefined) {
-                    if (window[app]['update_'+name] != undefined) {
+                if (window[app] !== undefined) {
+                    if (window[app]['update_'+name] !== undefined) {
                         var res = window[app]['update_'+name](obj,aObj);
-                        if (res != undefined) {
-                            obj.data('contextres',JSON.stringify(res))
+                        if (res !== undefined) {
+                            obj.data('contextres',JSON.stringify(res));
                             obj.attr('data-contextres',JSON.stringify(res));
                         }
                     }
                 }
-            };
+            }
             return obj;
         };
         for (i in elem.sub) {
