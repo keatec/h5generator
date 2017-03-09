@@ -4,6 +4,7 @@ Generator Libary for HTML based (Single Page) Websites
 
 ## NEW in Version  0.2.0 
 * added Support for  storage of patterns in external files
+* (please note: This feature requires a Promise Libary!)
 
 
 
@@ -42,6 +43,10 @@ Seperated and clear. Design can be changed without changing code. Code can be ch
 ## Install 
 
 just include `h5generators.js` inside your webpage.
+
+NOTE: to reference external files you need
+* a Jquery version
+* a Promise Libary or compatible browser (https://github.com/petkaantonov/bluebird)
 
 using bower
 
