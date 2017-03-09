@@ -10,6 +10,9 @@
   "authors": [
     "Keatec GmbH"
   ],
+  "files" : [
+    "generators"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
