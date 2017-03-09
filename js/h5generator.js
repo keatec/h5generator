@@ -144,7 +144,29 @@ SOFTWARE.
 
     };
 
+    var compileExtHtml = function (cfg) {
+        //console.log(cfg);  
+        var start = cfg.html.indexOf('<!--<h5generator>-->');
+        var end = cfg.html.indexOf('<!--</h5generator>-->');
+        if (start < 0 || end < 0 || (start >= end)) throw new Error('generator was not found in html');
+        var html = cfg.html.substr(start+20,end-(start + 20));
+        html = html.replace(/^[\s]*/gi,'');
+        var start = { sub: {} };
+        scanGenerator($(html), start);
+        for (var i in start.sub) {
+            buildFunction(start.sub[i], i, cfg.ref, '.'+cfg.name);
+        };
+    };
+
+
+
+    var loadAsync;
+
     var main = {
+        waitFor : function () {
+            if (loadAsync == undefined) throw new Error('Async Load requires a Promise Libary.');
+            return loadAsync;
+        },
         init: function () {
             var data = $('.htmlGenerators');
             if (data.length === 0) return;
@@ -154,7 +176,48 @@ SOFTWARE.
             });
             for (var i in start.sub) {
                 buildFunction(start.sub[i], i, main, '');
-            }
+            };
+            if (window['Promise'] != undefined) {
+                loadAsync = new Promise(function (res,rej) {
+                    var todo = $('.htmlGenerators')
+                        .find('div[data-generatorref]')
+                        .map(function (e,obj) {
+                            return {uri: $(obj).data('generatorref'),name: $(obj).data('name')}})
+                                .map(function (i,e) {
+                                    if (e.name != undefined) {
+                                        generators[e.name] = {}; e.ref = generators[e.name]; 
+                                        return e
+                                    }; 
+                                    e.ref = generators; return e
+                                })
+                    //console.log('Reading Generators Async',todo);
+                    todo = todo.map(function (e,obj) {
+                        return new Promise(function (res,rej) {
+                                $.ajax({
+                                    url: obj.uri, 
+                                    success: function (data) {
+                                        obj.html = data;
+                                        res(obj);
+                                    },
+                                    error: function(err) {
+                                        console.log(err);
+                                        rej(err);
+                                    }
+                                });
+                        });
+                    });
+                    return Promise.all(todo)
+                    .each(function (obj) {
+                        return compileExtHtml(obj);
+                    })
+                    .then(function (todo) {
+                        res();
+                    })
+                    .catch(function (err) {
+                        rej(err);
+                    })
+                });
+            };
         }
     };
 
