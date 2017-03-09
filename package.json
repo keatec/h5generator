@@ -1,6 +1,6 @@
 {
   "name": "h5generator",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "html5 generator libary",
   "main": "grunt.js",
   "scripts": {

@@ -1,6 +1,12 @@
 # h5generator
 Generator Libary for HTML based (Single Page) Websites
 
+
+## NEW in Version  0.2.0 
+* added Support for  storage of patterns in external files
+
+
+
 If your code contians HTML fragments like
 ```javascript
 
@@ -33,9 +39,27 @@ and all the design goes out of javascript into html
 ```
 Seperated and clear. Design can be changed without changing code. Code can be changed without design.
 
+## Install 
+
+just include `h5generators.js` inside your webpage.
+
+using bower
+
+`bower install h5generator` 
+
+## Build from Source
+
+1. Clone repository
+2. npm install
+
+if you have `grunt` installed 
+
+`grunt` starts a webserver hosting the sample side
+
 ## What this libary does...
 
 h5generator processes template written inside the HTML into javascript code. These generator functions can used with parameters to generate html.  
+
 
 Sample:
 ```html
