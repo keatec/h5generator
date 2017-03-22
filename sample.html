@@ -21,6 +21,12 @@
             <p>Please view HTML / Documentation for sample infos </p>
             <p>Activate Console to log for output...</p>
             <button type="button" onclick="showAlert('Hi Ho!');" class="btn btn-default">Create AlertDialog</button>
+            <div data-generatorbuild="demoelement">{
+                title: "First Instance"
+            }</div>
+            <div data-generatorbuild="demoelement">{
+                title: "Second Instance"
+            }</div>
         </div>
         <!-- 
 
@@ -28,7 +34,10 @@
 
     -->
         <div style="display:none" class="htmlGenerators">
-            <div data-generatorref="generators/messages.html"/>
+            <div data-name="messagebox" data-generatorref="generators/messages.html"/>
+            <div data-generator="demoelement">
+                <div>{title}</div>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

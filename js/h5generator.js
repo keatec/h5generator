@@ -208,7 +208,14 @@ SOFTWARE.
                     });
                     return Promise.all(todo)
                     .each(function (obj) {
-                        return compileExtHtml(obj);
+                        compileExtHtml(obj); 
+                        $('*[data-generatorbuild]').map(function (e,obj) {
+                            var el = $(obj);
+                            var html;
+                            eval('html = generators.'+el.data('generatorbuild')+'('+el.html()+')');
+                            el.replaceWith(html);
+                        })                        
+                        return;
                     })
                     .then(function (todo) {
                         res();
