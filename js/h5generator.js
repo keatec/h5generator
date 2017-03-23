@@ -152,7 +152,10 @@ SOFTWARE.
         var html = cfg.html.substr(start+20,end-(start + 20));
         html = html.replace(/^[\s]*/gi,'');
         var start = { sub: {} };
-        scanGenerator($(html), start);
+        var go = $(html);
+        for (var i = 0; i < go.length; i++) {
+            scanGenerator($(go[i]), start);
+        }
         for (var i in start.sub) {
             buildFunction(start.sub[i], i, cfg.ref, '.'+cfg.name);
         };
