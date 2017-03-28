@@ -35,8 +35,11 @@
     -->
         <div style="display:none" class="htmlGenerators">
             <div data-name="messagebox" data-generatorref="generators/messages.html"/>
+            <div data-generator="line">
+                 <div>Line{name:noname}</div>
+            </div>
             <div data-generator="demoelement">
-                <div>{title}</div>
+                <div>{title}</div><div data-generatorinclude="line">"name":123</div>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -46,15 +49,15 @@
         <script src="js/h5generator.js"></script>
         <script>
                 var showAlert = function(message) {
-                    return betterModal.run($(generators.dialog({
+                    return betterModal.run(generators.messagebox.dialog.asActive({
                         title: 'Alerts',
-                        content: [generators.dialog.text({
+                        content: [generators.messagebox.dialog.text({
                             text: ''+message
                         })], 
-                        buttons: [generators.dialog.cancelok({
+                        buttons: [generators.messagebox.dialog.cancelok({
                             ok: 'Seen!'
                         })]
-                    }))).then(function(obj) {
+                    })).then(function(obj) {
                         return true;
                     }).catch(function() {
                         return false

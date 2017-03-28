@@ -88,6 +88,12 @@ SOFTWARE.
             var obj = $(this(aObj,aDef));
             /*obj.data('generator',rootname+'.'+name);data-contextRes
             obj.attr('data-generator',rootname+'.'+name);*/
+            var extra; var html;
+            while ((extra = obj.find('*[data-generatorinclude]').first()).length >0 ) {
+                html = '<div></div>';
+                eval ('html = generators.'+extra.data('generatorinclude')+'.asActive('+JSON.stringify(JSON.parse('{'+extra.text()+'}'))+');')
+                extra.replaceWith(html);  
+            }
             obj.data('contextres',JSON.stringify(aObj));
             obj.attr('data-contextres',JSON.stringify(aObj));
             if (obj.hasClass('context')) {
