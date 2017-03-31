@@ -1,6 +1,25 @@
 # h5generator
 Generator Libary for HTML based (Single Page) Websites
 
+## NEW in Version 0.2.3
+
+If you use Jquery the generator has an additional funciton 
+`asActive` to build a Jquery object directly
+
+Sample 
+```javascript
+output = $(generators.result({data: data}));
+```
+
+can be rewritten to
+
+```javascript
+obj = generators.result.asActive({data: data});
+```
+
+## NEW in Version 0.2.2
+
+you can now use generators inside other generators 
 
 ## NEW in Version  0.2.0 
 * added Support for  storage of patterns in external files
