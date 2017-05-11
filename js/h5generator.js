@@ -241,7 +241,7 @@ SOFTWARE.
 
 })(window);
 
-$(document).ready(function () {
+$(document).on('ready',function () {
     generators.init();
 });
 
