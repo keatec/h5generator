@@ -200,6 +200,8 @@ SOFTWARE.
                                     e.ref = generators; return e
                                 })
                     //console.log('Reading Generators Async',todo);
+                    if (todo.length == 0) return res(); // Patch for IE11, IE11 does not support defered Loading
+
                     todo = todo.map(function (e,obj) {
                         return new Promise(function (res,rej) {
                                 $.ajax({
