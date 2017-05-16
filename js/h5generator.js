@@ -201,8 +201,7 @@ SOFTWARE.
                                 })
                     //console.log('Reading Generators Async',todo);
                     if (todo.length == 0) return res(); // Patch for IE11, IE11 does not support defered Loading
-
-                    todo = todo.map(function (e,obj) {
+                    todo = todo.toArray().map(function (obj) {
                         return new Promise(function (res,rej) {
                                 $.ajax({
                                     url: obj.uri, 
@@ -218,22 +217,23 @@ SOFTWARE.
                         });
                     });
                     return Promise.all(todo)
-                    .each(function (obj) {
-                        compileExtHtml(obj); 
-                        $('*[data-generatorbuild]').map(function (e,obj) {
-                            var el = $(obj);
-                            var html;
-                            eval('html = generators.'+el.data('generatorbuild')+'('+el.html()+')');
-                            el.replaceWith(html);
-                        })                        
-                        return;
-                    })
-                    .then(function (todo) {
-                        res();
-                    })
-                    .catch(function (err) {
-                        rej(err);
-                    })
+                        .each(function (obj) {
+                            compileExtHtml(obj); 
+                            $('*[data-generatorbuild]').map(function (e,obj) {
+                                var el = $(obj);
+                                var html;
+                                eval('html = generators.'+el.data('generatorbuild')+'('+el.html()+')');
+                                el.replaceWith(html);
+                            })                        
+                            return;
+                        })
+                        .then(function (todo) {
+                            res();
+                        })
+                        .catch(function (err) {
+                            //console.log('eee',err);
+                            rej(err);
+                        })
                 });
             };
         }
@@ -242,6 +242,7 @@ SOFTWARE.
     exports.generators = main;
 
 })(window);
+
 
 $(document).on('ready',function () {
     generators.init();
