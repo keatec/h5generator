@@ -27,6 +27,24 @@ SOFTWARE.
 
 (function (exports) {
 
+    var combinePath = function (root,level,rootpath) {
+        console.log('CP',root,level,rootpath);
+        var left = root.match(/\.[^\.]+/gi);
+        var xdo = level.match(/(\.\.\/)|(\/\/)|[a-z0-9]+/gi);
+        while (xdo.length > 0 && (xdo[0] == '..\/' || (xdo[0] == '//'))) {
+            if (xdo[0] == '..\/') {
+                left.splice(left.length-1,1);
+                xdo.splice(0,1);
+            };
+            if (xdo[0] == '//') {
+                left = ['.'+rootpath]
+                xdo.splice(0,1);
+            }
+        };
+        console.log('->',left.join('')+'.'+xdo.join(''))
+        return left.join('')+'.'+xdo.join('');
+    }
+
     var buildFunction = function (elem, name, rootfnc, rootname) {
         var html = elem.html;
         var code = [];
@@ -91,7 +109,9 @@ SOFTWARE.
             var extra; var html;
             while ((extra = obj.find('*[data-generatorinclude]').first()).length >0 ) {
                 html = '<div></div>';
-                eval ('html = generators.'+extra.data('generatorinclude')+'.asActive('+JSON.stringify(JSON.parse('{'+extra.text()+'}'))+');')
+                console.log(elem,name,rootname);
+                var path = combinePath('.'+elem.path,extra.data('generatorinclude'),elem.rootpath);
+                eval ('html = '+path.substr(1)+'.asActive('+JSON.stringify(JSON.parse('{'+extra.text()+'}'))+');')
                 extra.replaceWith(html);  
             }
             obj.data('contextres',JSON.stringify(aObj));
@@ -124,7 +144,7 @@ SOFTWARE.
                 obj.removeData('generator');
                 obj.removeAttr('data-generator');
                 if (root[name] !== undefined) throw new Error('Only one generator definition is allowed per child');
-                root.sub[name] = { html: '', sub: {}, def: {} };
+                root.sub[name] = { html: '', sub: {}, def: {}, path: root.path+'.'+name, rootpath: root.rootpath };
                 var val = root.sub[name];
                 var html = $('<div/>').append(obj.clone());
                 var list = html.find('*[data-generatorplace]');
@@ -157,7 +177,7 @@ SOFTWARE.
         if (start < 0 || end < 0 || (start >= end)) throw new Error('generator was not found in html');
         var html = cfg.html.substr(start+20,end-(start + 20));
         html = html.replace(/^[\s]*/gi,'');
-        var start = { sub: {} };
+        var start = { sub: {}, path: 'generators.'+cfg.name,rootpath: 'generators.'+cfg.name  };
         var go = $(html);
         for (var i = 0; i < go.length; i++) {
             scanGenerator($(go[i]), start);
