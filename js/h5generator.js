@@ -27,6 +27,7 @@ SOFTWARE.
 
 (function (exports) {
 
+
     var combinePath = function (root,level,rootpath) {
         console.log('CP',root,level,rootpath);
         var left = root.match(/\.[^\.]+/gi);
